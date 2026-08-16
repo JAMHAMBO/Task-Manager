@@ -1,0 +1,34 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.3rem;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.138);
+    gap: 2px;
+}
+
+.title {
+    font-size: 2rem;
+}
+
+.slogan {
+    color: rgba(0, 0, 0, 0.478);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+@media (max-width: 450px) {
+
+    .container {
+        padding: 1rem;
+        gap: 1px;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .slogan {
+        font-size: 0.7rem;
+    }
+}
