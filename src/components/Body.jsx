@@ -1,5 +1,6 @@
 import React from 'react'
 import './Body.css'
+import { Check, Trash2 } from "lucide-react";
 
 function Body() {
   return (
@@ -27,15 +28,18 @@ function Body() {
 
         <div className="task-bar">
 
-          <div className="main-task">Finish Project Report </div>
-          <div className="date-task">13-08-2026</div>
+          <button className="complete-btn">
+            <Check size={18} />
+          </button>
 
-        </div>
+          <div className="task-info">
+            <div className="main-task">Finish Project Report</div>
+            <div className="date-task">13-08-2026</div>
+          </div>
 
-        <div className="task-bar">
-
-          <div className="main-task">Finish Project</div>
-          <div className="date-task">13-08-2026</div>
+          <button className="delete-btn">
+            <Trash2 size={18} />
+          </button>
 
         </div>
 
