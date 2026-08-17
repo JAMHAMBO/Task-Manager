@@ -8,6 +8,7 @@ function Body() {
   const [tasks, setTasks] = useState([])
   const [date, setDate] = useState("")
   const [showCompleted, setshowCompleted] = useState(false)
+  const [filterDate, setfilterDate] = useState("")
 
   const addTask = () => {
     if (!task.trim()) return
@@ -26,6 +27,47 @@ function Body() {
     )
   }
 
+  const deleteTask = (selectedTask) => {
+    const newTasks = []
+
+    for (let task of tasks) {
+      if (task !== selectedTask) {
+        newTasks.push(task)
+      }
+    }
+    setTasks(newTasks)
+  }
+
+  const getFilteredTasks = () => {
+
+    let filteredTasks = []
+
+    for (let task of tasks) {
+
+      if (showCompleted === true) {
+
+        if (task.completed === true) {
+
+          if (filterDate === "" || task.date === filterDate) {
+            filteredTasks.push(task)
+          }
+
+        }
+
+      } else {
+
+        if (task.completed === false) {
+
+          if (filterDate === "" || task.date === filterDate) {
+            filteredTasks.push(task)
+          }
+
+        }
+      }
+    }
+    return filteredTasks
+  }
+
   return (
     <div className='main-container'>
 
@@ -40,7 +82,7 @@ function Body() {
       <div className="body-container2">
 
         <div className="filter">
-          Filter by date: <input type="date" />
+          Filter by date: <input value={filterDate} onChange={(e) => setfilterDate(e.target.value)} type="date" />
         </div>
 
         <button onClick={() => setshowCompleted(!showCompleted)} >{showCompleted ? "Show Pending" : "Show Completed"}</button>
@@ -50,32 +92,30 @@ function Body() {
       <div className="body-container3">
 
         {
-          tasks
-            .filter(task => showCompleted ? task.completed : !task.completed)
-            .map((task) => (
+          getFilteredTasks().map((task) => (
 
-              <div className="task-bar" key={task.title}>
+            <div className="task-bar" key={task.title}>
 
-                {!task.completed && (
+              {!task.completed && (
 
-                  <button onClick={() => toggleComplete(task)} className="complete-btn">
-                    <Check size={18} />
-                  </button>
-
-                )}
-
-                <div className="task-info">
-                  <div className="main-task">{task.title}</div>
-                  <div className="date-task">{task.date}</div>
-                </div>
-
-                <button className="delete-btn">
-                  <Trash2 size={18} />
+                <button onClick={() => toggleComplete(task)} className="complete-btn">
+                  <Check size={18} />
                 </button>
 
+              )}
+
+              <div className="task-info">
+                <div className="main-task">{task.title}</div>
+                <div className="date-task">{task.date}</div>
               </div>
 
-            ))
+              <button onClick={() => deleteTask(task)} className="delete-btn">
+                <Trash2 size={18} />
+              </button>
+
+            </div>
+
+          ))
         }
 
 
