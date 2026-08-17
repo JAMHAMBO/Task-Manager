@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './Body.css'
 import { Check, Trash2 } from "lucide-react";
 
@@ -10,34 +10,94 @@ function Body() {
   const [showCompleted, setshowCompleted] = useState(false)
   const [filterDate, setfilterDate] = useState("")
 
-  const addTask = () => {
+  useEffect(() => {
+
+    const getTasks = async () => {
+
+      const response = await fetch("http://localhost:3000/api/tasks")
+
+      const data = await response.json()
+
+      setTasks(data)
+    }
+
+    getTasks()
+
+  }, [])
+
+  const addTask = async () => {
     if (!task.trim()) return
-    setTasks([...tasks, { title: task, date: date, completed: false }])
+
+    const response = await fetch("http://localhost:3000/api/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: task,
+        date: date,
+        completed: false
+      })
+    })
+
+    const newTask = await response.json()
+
+    setTasks([...tasks, newTask])
+
     setTask("")
     setDate("")
   }
 
-  const toggleComplete = (selectedTask) => {
+  const toggleComplete = async (selectedTask) => {
+
+    let updatedTask = {
+      ...selectedTask,
+      completed: !selectedTask.completed
+    }
+
+    const response = await fetch(
+      `http://localhost:3000/api/tasks/${selectedTask._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(updatedTask)
+      }
+    )
+
+    const data = await response.json()
+
     setTasks(
-      tasks.map((task) =>
-        task === selectedTask
-          ? { ...task, completed: !task.completed }
-          : task
-      )
+      tasks.map((task) => {
+        if (task._id === data._id) {
+          return data
+        } else {
+          return task
+        }
+      })
     )
   }
 
-  const deleteTask = (selectedTask) => {
+  const deleteTask = async (selectedTask) => {
+
+    await fetch(
+      `http://localhost:3000/api/tasks/${selectedTask._id}`,
+      {
+        method: "DELETE"
+      }
+    )
+
     const newTasks = []
 
     for (let task of tasks) {
-      if (task !== selectedTask) {
+      if (task._id !== selectedTask._id) {
         newTasks.push(task)
       }
     }
+
     setTasks(newTasks)
   }
-
   const getFilteredTasks = () => {
 
     let filteredTasks = []
@@ -94,7 +154,7 @@ function Body() {
         {
           getFilteredTasks().map((task) => (
 
-            <div className="task-bar" key={task.title}>
+            <div className="task-bar" key={task._id}>
 
               {!task.completed && (
 
