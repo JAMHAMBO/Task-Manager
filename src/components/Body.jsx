@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './Body.css'
-import { Check, Trash2 } from "lucide-react";
+import { Check, Trash2, CalendarDays } from "lucide-react";
 
 function Body() {
 
@@ -134,15 +134,33 @@ function Body() {
       <div className="body-container1">
 
         <input className='task' value={task} type="text" placeholder='What needs to be done?' onChange={(e) => setTask(e.target.value)} />
-        <input className='date' value={date} type="date" onChange={(e) => setDate(e.target.value)} />
-        <button className='add-task' onClick={addTask} >Add Task</button>
+        <div className="date-mobile">
+          <CalendarDays size={23} />
+
+          <input
+            className="date"
+            value={date}
+            type="date"
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </div>       
+         <button className='add-task' onClick={addTask} >Add Task</button>
 
       </div>
 
       <div className="body-container2">
 
         <div className="filter">
-          Filter by date: <input value={filterDate} onChange={(e) => setfilterDate(e.target.value)} type="date" />
+          Filter by date:
+
+          <div className="filter-date-mobile">
+            <CalendarDays size={18} />
+            <input
+              value={filterDate}
+              onChange={(e) => setfilterDate(e.target.value)}
+              type="date"
+            />
+          </div>
         </div>
 
         <button onClick={() => setshowCompleted(!showCompleted)} >{showCompleted ? "Show Pending" : "Show Completed"}</button>

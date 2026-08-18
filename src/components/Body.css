@@ -55,6 +55,9 @@
 
 .filter {
     color: rgba(0, 0, 0, 0.544);
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .body-container3 {
@@ -148,6 +151,17 @@
     border-radius: 10px;
 }
 
+.date-mobile,
+.filter-date-mobile {
+    color: rgba(0, 0, 0, 0.544);
+    position: relative;
+}
+
+.date-mobile svg,
+.filter-date-mobile svg {
+    display: none;
+}
+
 @media (max-width: 450px) {
 
     .body-container1 {
@@ -205,6 +219,9 @@
     }
 
     .filter {
+        display: flex;
+        align-items: center;
+        gap: 5px;
         font-size: small;
     }
 
@@ -223,7 +240,34 @@
         padding: 0.6rem;
     }
 
+    .main-task{
+        font-size: small;
+    }
+
     .date-task {
         font-size: xx-small;
+    }
+
+    .date-mobile svg,
+    .filter-date-mobile svg {
+        display: block;
+    }
+
+    .date-mobile input,
+    .filter-date-mobile input {
+        position: absolute;
+        opacity: 0;
+        width: 35px;
+        height: 35px;
+        cursor: pointer;
+    }
+
+    .date-mobile,
+    .filter-date-mobile {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
